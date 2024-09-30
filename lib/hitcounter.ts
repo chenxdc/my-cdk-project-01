@@ -1,6 +1,7 @@
 import { AttributeType, Table } from "aws-cdk-lib/aws-dynamodb";
 import { Code, Function, IFunction, Runtime } from "aws-cdk-lib/aws-lambda";
 import { Construct } from "constructs";
+import {RemovalPolicy} from "aws-cdk-lib";
 
 export interface HitCounterProps{
     /** the function for which we want to count url hits **/
@@ -16,6 +17,7 @@ export class HitCounter extends Construct {
 
         const table = new Table(this, "Hits", {
             partitionKey: { name: "path", type: AttributeType.STRING },
+            removalPolicy: RemovalPolicy.DESTROY, // Add this and the import on the top line
         });
 
         this.handler = new Function(this, "HitCounterHandler", {
