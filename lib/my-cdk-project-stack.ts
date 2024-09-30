@@ -4,6 +4,7 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 // import * as sqs from 'aws-cdk-lib/aws-sqs';
 import { LambdaRestApi } from "aws-cdk-lib/aws-apigateway";
 import { Code, Function, Runtime } from "aws-cdk-lib/aws-lambda";
+import { HitCounter } from "./hitcounter";
 
 export class MyCdkProjectStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
@@ -17,13 +18,21 @@ export class MyCdkProjectStack extends cdk.Stack {
       handler: "hello.handler",
     });
 
+    /*
     // defines an API Gateway REST API resource backed by our "hello" function.
     const gateway = new LambdaRestApi(this, "Endpoint", {
       handler: hello,
+    });*/
+
+
+    const helloWithCounter = new HitCounter(this, "HelloHitCounter", {
+      downstream: hello,
     });
 
-
-
+    // defines an API Gateway REST API resource backed by our "hello" function.
+    const gateway = new LambdaRestApi(this, "Endpoint", {
+      handler: helloWithCounter.handler,
+    });
 
 
     //create remote dev branch commit to dev
