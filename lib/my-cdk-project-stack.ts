@@ -26,7 +26,7 @@ export class MyCdkProjectStack extends cdk.Stack {
 
 
 
-
+    //create remote dev branch
     // example resource
     // const queue = new sqs.Queue(this, 'MyCdkProjectQueue', {
     //   visibilityTimeout: cdk.Duration.seconds(300)
